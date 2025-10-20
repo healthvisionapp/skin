@@ -1,0 +1,8 @@
+.git
+__pycache__/
+.env
+*.h5
+dataset/
+data/
+serviceAccountkey.json
+serviceAccountKey.json
