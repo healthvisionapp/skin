@@ -1,0 +1,6 @@
+flask
+tensorflow==2.20.0
+pillow
+firebase-admin
+requests
+gunicorn
