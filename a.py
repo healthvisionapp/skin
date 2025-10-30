@@ -3,7 +3,7 @@ import io
 import json
 import numpy as np
 from PIL import Image
-from flask import Flask, request, render_template_string
+from flask import Flask, request, render_template_string, redirect, url_for  # ← added redirect,url_for
 import requests
 
 # TensorFlow/Keras
@@ -160,10 +160,16 @@ def index():
 def health():
     return "ok", 200
 
-@app.route('/predict', methods=['POST'])
+@app.route('/predict', methods=['GET', 'POST'])  # ← accept GET too
 def predict():
-    if 'image' not in request.files:
-        return "No image uploaded", 400
+    # If opened directly in browser (GET), send user back to the form
+    if request.method == 'GET':
+        uid = request.args.get("uid", "")
+        return redirect(url_for('index', uid=uid))
+
+    if 'image' not in request.files or request.files['image'].filename == '':
+        uid = request.args.get("uid", "")
+        return redirect(url_for('index', uid=uid))
 
     image_file = request.files['image']
     image_bytes = image_file.read()
